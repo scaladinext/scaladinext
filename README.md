@@ -12,4 +12,4 @@ medium-sized database-driven applications
 * **scaladinext-reactive** - a useful binding for Scala.Rx library, making
 it easy to write reactive Scaladin/Vaadin applications.
 
-
+* **scaladinext-common** - contains _event_, _ui_ and _validator_ related utils.
