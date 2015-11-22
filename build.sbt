@@ -35,13 +35,12 @@ lazy val common = project.in(file("scaladinext-common")).settings(commonSettings
     "org.slf4j" % "slf4j-api" % "1.7.10",
     "ch.qos.logback" % "logback-core" % "1.1.2",
     "ch.qos.logback" % "logback-classic" % "1.1.2")
-
-
 )
+
 lazy val mongo = project.in(file("scaladinext-mongo")).settings(commonSettings: _*).settings(
   name := "mongo",
   libraryDependencies += "net.liftweb" %% "lift-mongodb-record" % "2.6"
-)
+).dependsOn(common)
 
 lazy val reactive = project.in(file("scaladinext-reactive")).settings(commonSettings: _*).settings(
   name := "reactive",
