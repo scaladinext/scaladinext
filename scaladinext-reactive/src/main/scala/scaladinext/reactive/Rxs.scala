@@ -45,6 +45,14 @@ trait Rxs[T] extends PropertyViewer {
   }
 
   /**
+    * Initializes 'rx' variable with a given block of code => Option[T]
+    *
+    * @param calc the body of reactive variable
+    * @return this
+    */
+  def rx(calc: => Option[T]): this.type = rx(Rx{calc})
+
+  /**
    * Getter for a 'rx' variable.
    *
    * @return
@@ -76,12 +84,7 @@ trait Rxs[T] extends PropertyViewer {
     valueChangeListeners += { e =>
       val propVal = property.flatMap(_.value).asInstanceOf[Option[T]]
       val resVal = res()
-//      if (resVal != propVal)
-        res() = propVal //
-
-//      val resVal2 = res()
-//      logger.debug(s"valueChangeListeners: ${caption.getOrElse("")}.propVal = $propVal, before = $resVal, after = $resVal2")
-
+      res() = propVal
     }
     res
   }

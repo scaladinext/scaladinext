@@ -9,7 +9,7 @@ val scaladinVersion = "3.2-SNAPSHOT"
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
   organization := "scaladinext",
-  version := "0.1.1",
+  version := "0.1.2",
 
   // basic dependencies
   libraryDependencies ++= Seq(
