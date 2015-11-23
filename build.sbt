@@ -9,7 +9,7 @@ val scaladinVersion = "3.2-SNAPSHOT"
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
   organization := "scaladinext",
-  version := "0.1.2",
+  version := "0.2.0",
 
   // basic dependencies
   libraryDependencies ++= Seq(
@@ -22,7 +22,9 @@ lazy val commonSettings = Seq(
     "com.vaadin" % "vaadin-themes" % vaadinVersion,
     "com.vaadin" % "vaadin-client" % vaadinVersion,
 
-    "org.vaadin.addons" %% "scaladin" % scaladinVersion
+    "org.vaadin.addons" %% "scaladin" % scaladinVersion,
+
+    "org.scalatest" %% "scalatest" % "2.2.4" % "test"
   )
 )
 
