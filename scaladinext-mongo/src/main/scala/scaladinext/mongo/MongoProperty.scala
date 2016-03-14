@@ -18,6 +18,8 @@ abstract class WithAccessor[T] extends AbstractProperty[T] {
   protected def myFireValueChange() = fireValueChange()
 }
 
+
+
 trait MongoDelegatingPropertyMixin[T, OwnerType <: Record[OwnerType]] extends WithAccessor[T] with ScaladinMixin {
   protected def mySetValue(newValue: T) = setValue(newValue)
   override def wrapper = super.wrapper.asInstanceOf[MongoProperty[T, OwnerType]]
@@ -26,13 +28,13 @@ trait MongoDelegatingPropertyMixin[T, OwnerType <: Record[OwnerType]] extends Wi
     wrapper.value = newValue
     myFireValueChange()
   }
-  def getType: Class[_ <: T] = wrapper.getType
+  def getType: Class[_ <: T] = wrapper.p.getType
   override def isReadOnly: Boolean = wrapper.readOnly
   override def setReadOnly(readOnly: Boolean) { wrapper.readOnly = readOnly }
 }
 
 
-trait MongoProperty[T, OwnerType <: Record[OwnerType]] extends Property[T, T] {
+trait MongoProperty[T, OwnerType <: Record[OwnerType]] extends Property[T] {
   private var _readOnly = false
   override def readOnly: Boolean = _readOnly
   override def readOnly_=(ro: Boolean) { _readOnly = ro }

@@ -89,12 +89,12 @@ trait Rxs[T] extends PropertyViewer {
     res
   }
 
-  override def property_=(prop: Option[Property[_, _]]): Unit = {
+  override def property_=(prop: Option[Property[_]]): Unit = {
     super.property = prop
     _var = buildVar()
   }
 
-  override def property_=(prop: Property[_, _]): Unit = {
+  override def property_=(prop: Property[_]): Unit = {
     super.property = prop
     _var = buildVar()
   }
