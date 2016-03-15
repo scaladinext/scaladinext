@@ -3,7 +3,10 @@ name := "scaladinext"
 // common variables
 val vaadinVersion = "7.5.2"
 
-val scaladinVersion = "3.2-SNAPSHOT"
+//val scaladinVersion = "3.2-SNAPSHOT"
+val scaladinVersion = "3.2.0"
+
+//resolvers += Resolver.file("mylocal", file(Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns)
 
 // common settings
 lazy val commonSettings = Seq(

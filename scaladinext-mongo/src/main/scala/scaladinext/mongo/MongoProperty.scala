@@ -14,32 +14,47 @@ import scala.reflect._
  *
  * @tparam T
  */
-abstract class WithAccessor[T] extends AbstractProperty[T] {
+abstract class WithAccessor[T: ClassTag] extends AbstractProperty[T] {
   protected def myFireValueChange() = fireValueChange()
 }
 
-
-
-trait MongoDelegatingPropertyMixin[T, OwnerType <: Record[OwnerType]] extends WithAccessor[T] with ScaladinMixin {
+class MongoDelegatingPropertyMixin[T: ClassTag, OwnerType <: Record[OwnerType]] extends WithAccessor[T] with ScaladinMixin {
   protected def mySetValue(newValue: T) = setValue(newValue)
+
   override def wrapper = super.wrapper.asInstanceOf[MongoProperty[T, OwnerType]]
   def getValue: T = wrapper.value.getOrElse(null).asInstanceOf[T]
+
   protected def setValue(newValue: T): Unit = {
     wrapper.value = newValue
     myFireValueChange()
   }
-  def getType: Class[_ <: T] = wrapper.p.getType
-  override def isReadOnly: Boolean = wrapper.readOnly
-  override def setReadOnly(readOnly: Boolean) { wrapper.readOnly = readOnly }
+
+  override def getType: Class[_ <: T] = {
+    val clazz = classTag[T].runtimeClass
+    TypeMapper.toJavaType(clazz).asInstanceOf[Class[_ <: T]]
+  }
+
+
+  //  def getType: Class[_ <: T] = wrapper.p.getType
+//  def isReadOnly: Boolean = wrapper.readOnly
+//  override def setReadOnly(readOnly: Boolean) { wrapper.readOnly = readOnly }
+
+//  def myFireValueChange() = {
+
+    // TODO: impplement calling a protected super.fireValueChange() java
+//  }
 }
 
 
-trait MongoProperty[T, OwnerType <: Record[OwnerType]] extends Property[T] {
+abstract class MongoProperty[T: ClassTag, OwnerType <: Record[OwnerType]] extends Property[T] {
   private var _readOnly = false
   override def readOnly: Boolean = _readOnly
   override def readOnly_=(ro: Boolean) { _readOnly = ro }
 
-  val p = new WithAccessor[T] with MongoDelegatingPropertyMixin[T, OwnerType]
+//  val p = new MongoDelegatingPropertyMixin[T, OwnerType] {}
+  val p = new MongoDelegatingPropertyMixin[T, OwnerType] {
+//    override def getType: Class[_ <: T] = classOf[T]
+  }
   p.wrapper = this
 }
 
