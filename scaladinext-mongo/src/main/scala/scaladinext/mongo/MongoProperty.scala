@@ -18,7 +18,8 @@ abstract class WithAccessor[T: ClassTag] extends AbstractProperty[T] {
   protected def myFireValueChange() = fireValueChange()
 }
 
-class MongoDelegatingPropertyMixin[T: ClassTag, OwnerType <: Record[OwnerType]] extends WithAccessor[T] with ScaladinMixin {
+class MongoDelegatingPropertyMixin[T: ClassTag, OwnerType <: Record[OwnerType]]
+    extends WithAccessor[T] with ScaladinMixin {
   protected def mySetValue(newValue: T) = setValue(newValue)
 
   override def wrapper = super.wrapper.asInstanceOf[MongoProperty[T, OwnerType]]
@@ -34,8 +35,7 @@ class MongoDelegatingPropertyMixin[T: ClassTag, OwnerType <: Record[OwnerType]] 
     TypeMapper.toJavaType(clazz).asInstanceOf[Class[_ <: T]]
   }
 
-
-  //  def getType: Class[_ <: T] = wrapper.p.getType
+//  def getType: Class[_ <: T] = wrapper.p.getType
 //  def isReadOnly: Boolean = wrapper.readOnly
 //  override def setReadOnly(readOnly: Boolean) { wrapper.readOnly = readOnly }
 
@@ -70,7 +70,7 @@ class MongoMandatoryProperty[T: ClassTag, OwnerType <: Record[OwnerType]](field:
 }
 
 class MongoOptionalProperty[T: ClassTag, OwnerType <: Record[OwnerType]](field: OptionalField[T, OwnerType])
-  extends MongoProperty[T, OwnerType] {
+    extends MongoProperty[T, OwnerType] {
   override def getType: Class[_ <: T] = {
     val clazz = classTag[T].runtimeClass
     TypeMapper.toJavaType(clazz).asInstanceOf[Class[_ <: T]]
