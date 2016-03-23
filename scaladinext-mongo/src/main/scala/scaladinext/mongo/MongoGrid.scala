@@ -3,9 +3,11 @@ package scaladinext.mongo
 import com.typesafe.scalalogging.LazyLogging
 import net.liftweb.mongodb.record.MongoRecord
 import net.liftweb.record._
-import vaadin.scala.{Grid, IndexedContainer}
+import vaadin.scala.event.{ItemClickEvent, SelectionEvent}
+import vaadin.scala.{Item, Grid, IndexedContainer}
 
 import scala.reflect.runtime.universe._
+import scaladinext.event.{SelectedItemEvent, AppBus}
 
 object MongoGrid extends LazyLogging { self =>
 
@@ -66,6 +68,32 @@ object MongoGrid extends LazyLogging { self =>
     dataSource.load(columnDefs, loadRecords())
 
     setupCaptions(this, columnDefs)
+
+    selectionListeners += { e: SelectionEvent => AppBus.post(SelectedItemEvent(selectedItem.get)) }
+    itemClickListeners += { e: ItemClickEvent => {}}
+
+    def selectedItem: Option[Item] = {
+      val selectedId = self.selectedRow
+      //    logger.debug("selectedId: " + selectedId)
+      val item = selectedId match {
+        case Some(id) =>
+          val i = container.getItem(id)
+          val values = i.propertyIds.map { propId => i.getProperty(propId).value}
+          // logger.debug("vals: " + values)
+          Some(i)
+        case None =>
+          if (container.size > 0) Some(container.getItem(container.getIdByIndex(0)))
+          else None
+      }
+
+      item.foreach(i => {
+        //      logger.debug("!!!! itemExist: " + i)
+      })
+
+      //    logger.debug("selectedItem: " + item)
+      item
+    }
+
 
     /**
      * Column definitions. Based on the Column.field object,

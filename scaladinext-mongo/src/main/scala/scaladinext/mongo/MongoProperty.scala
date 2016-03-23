@@ -34,15 +34,6 @@ class MongoDelegatingPropertyMixin[T: ClassTag, OwnerType <: Record[OwnerType]]
     val clazz = classTag[T].runtimeClass
     TypeMapper.toJavaType(clazz).asInstanceOf[Class[_ <: T]]
   }
-
-//  def getType: Class[_ <: T] = wrapper.p.getType
-//  def isReadOnly: Boolean = wrapper.readOnly
-//  override def setReadOnly(readOnly: Boolean) { wrapper.readOnly = readOnly }
-
-//  def myFireValueChange() = {
-
-    // TODO: impplement calling a protected super.fireValueChange() java
-//  }
 }
 
 
