@@ -49,9 +49,7 @@ abstract class BeanGrid[IDT, BT <: Id[IDT]](implicit m: ClassTag[BT]) extends Gr
     editItem(newItem.getBean.id)
   }
 
-  def addNestedContainerBean(propertyName: String) = {
-    p.getContainerDataSource.asInstanceOf[com.vaadin.data.util.BeanContainer[IDT, BT]].addNestedContainerBean(propertyName)
-  }
+  def addNestedContainerBean(propertyName: String) = beanContainer.addNestedContainerBean(propertyName)
 
   def buildNewBean(): BT
 

@@ -31,6 +31,8 @@ class BeanContainer[ID, BT <: Id[ID]](override val p: com.vaadin.data.util.BeanC
 
   }
 
+  def addNestedContainerBean(propertyName: String) = p.addNestedContainerBean(propertyName)
+
   def addAll(beans: Seq[BT]) = {
     beans.map(b => addItem(b.id.asInstanceOf[ID], b))
   }
