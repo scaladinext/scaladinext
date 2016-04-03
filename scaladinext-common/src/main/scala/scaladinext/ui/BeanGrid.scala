@@ -26,13 +26,8 @@ class MyVaadinGrid(dataSource: com.vaadin.data.Container.Indexed) extends Vaadin
     cancelEditorHandler = handler
   }
 
-  def fireCancelEditorEvent() = {
-    cancelEditorHandler.onCancelEditor()
-  }
-
   override def doCancelEditor(): Unit = {
-    logger.debug(s"doCancelEditor()")
-    fireCancelEditorEvent()
+    cancelEditorHandler.onCancelEditor()
     super.doCancelEditor()
   }
 }
@@ -68,11 +63,12 @@ abstract class BeanGrid[IDT, BT <: Id[IDT] with NewRecord](implicit m: ClassTag[
     * it means that we need to remove it from the grid.
     */
   override def onCancelEditor() = {
-    logger.debug(s"onCancelEditor()")
-    val id = editedItemId.get
-    val item = beanContainer.getItem(id)
-
-    if (item == null || item.bean == null || item.bean.newRecord) beanContainer.removeItem(id)
+    editedItemId match {
+      case Some(id) =>
+        val item = beanContainer.getItem(id)
+        if (item == null || item.bean == null || item.bean.newRecord) beanContainer.removeItem(id)
+      case None => {}
+    }
   }
 
   def setData(newData: Future[List[BT]]): Unit = {
