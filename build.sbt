@@ -1,4 +1,4 @@
-name := "scaladinext"
+//name := "scaladinext"
 
 // common variables
 val vaadinVersion = "7.5.2"
@@ -11,8 +11,8 @@ val scaladinVersion = "3.2.0"
 // common settings
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
-  organization := "scaladinext",
-  version := "0.2.2",
+  organization := "com.github.scaladinext",
+  version := "0.2.3",
 
   // basic dependencies
   libraryDependencies ++= Seq(
